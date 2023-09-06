@@ -5,6 +5,9 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -48,4 +51,21 @@ public class Controller{
             .filter(livro->livro.getAutor().equals(autor))
             .toList();
     }
+
+    @GetMapping("livrosAutores/{autor}/ano/{ano}")
+    @CrossOrigin(origins = "*")
+    public List<Livro> getLivrosAutores(@PathVariable(value="autor") String autor, @PathVariable(value="ano") int ano){
+        return livros.stream()
+            .filter(livro->livro.getAutor().equals(autor))
+            .filter(livro->livro.getAno() == ano)
+            .toList();
+    }
+
+    @PostMapping("/novoLivro")
+    @CrossOrigin(origins = "*")
+    public boolean cadastraLivro(@RequestBody final Livro livro){
+        livros.add(livro);
+        return true;
+    }
+
 }
